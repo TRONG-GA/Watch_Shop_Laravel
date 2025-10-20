@@ -1,256 +1,105 @@
-# Watch_Shop_Laravel
-# 🚀 HƯỚNG DẪN CHẠY DỰ ÁN LARAVEL WATCH SHOP
+# Watch Shop (Laravel)
 
-## 📋 YÊU CẦU HỆ THỐNG
+Website bán đồng hồ xây dựng bằng Laravel với kiến trúc MVC, sử dụng migrations, seeders và xác thực người dùng với Breeze, giữ giao diện hiện đại và đầy đủ tính năng thương mại điện tử.
 
-- **PHP**: >= 8.1 (khuyến nghị 8.2+)
-- **Composer**: Latest version
-- **MySQL/MariaDB**: 5.7+ hoặc 8.0+
-- **Node.js**: 18+ (cho Vite)
-- **NPM**: 8+
+## 1) Mục tiêu sản phẩm
+- Website bán đồng hồ: duyệt sản phẩm, lọc theo danh mục, chi tiết sản phẩm.
+- Giỏ hàng, danh sách yêu thích, đặt hàng (checkout), lịch sử đơn hàng.
+- Trang liên hệ, giới thiệu, và chatbot giao diện.
+- Khu vực quản trị (dashboard, quản lý sản phẩm/đơn hàng) – có phân quyền admin.
 
-## 🔧 CÀI ĐẶT VÀ CẤU HÌNH
-
-### Bước 1: Kiểm tra môi trường
-
-```bash
-# Kiểm tra PHP
-php --version
-
-# Kiểm tra Composer
-composer --version
-
-# Kiểm tra Node.js
-node --version
-
-# Kiểm tra NPM
-npm --version
-```
-
-### Bước 2: Cài đặt dependencies
-
-```bash
-# Cài đặt PHP packages
-composer install
-
-# Cài đặt Node.js packages
-npm install
-```
-
-### Bước 3: Cấu hình môi trường
-
-```bash
-# Copy file cấu hình
-copy .env.example .env
-
-# Tạo application key
-php artisan key:generate
-```
-
-### Bước 4: Cấu hình database
-
-Mở file `.env` và cập nhật thông tin database:
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=watch_shop_laravel
-DB_USERNAME=root
-DB_PASSWORD=
-```
-
-### Bước 5: Tạo database
-
-```sql
--- Tạo database trong MySQL
-CREATE DATABASE watch_shop_laravel CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-### Bước 6: Chạy migrations và seeders
-
-```bash
-# Chạy migrations để tạo bảng
-php artisan migrate
-
-# Chạy seeders để tạo dữ liệu mẫu
-php artisan db:seed
-```
-
-### Bước 7: Tạo storage link
-
-```bash
-# Tạo symbolic link cho storage
-php artisan storage:link
-```
-
-### Bước 8: Build assets (tùy chọn)
-
-```bash
-# Build CSS và JS với Vite
-npm run build
-
-# Hoặc chạy development server
-npm run dev
-```
-
-## 🚀 CHẠY ỨNG DỤNG
-
-### Cách 1: Sử dụng Laravel Development Server
-
-```bash
-# Chạy server development
-php artisan serve
-
-# Ứng dụng sẽ chạy tại: http://localhost:8000
-```
-
-### Cách 2: Sử dụng XAMPP
-
-1. Copy thư mục `watch-shop-laravel` vào `htdocs`
-2. Truy cập: `http://localhost/watch-shop-laravel/public`
-
-## 👥 TÀI KHOẢN MẪU
-
-### Admin Account
-- **Email**: admin@gmail.com
-- **Password**: 123456
-- **Quyền**: Admin (có thể truy cập admin dashboard)
-
-### User Account
-- **Email**: user01@gmail.com
-- **Password**: 123456
-- **Quyền**: User thường
-
-### Test Account
-- **Email**: test@gmail.com
-- **Password**: 123456
-- **Quyền**: Admin
-
-## 📱 TÍNH NĂNG CHÍNH
-
-### Cho Người Dùng:
-- ✅ **Trang chủ** với carousel và sản phẩm nổi bật
-- ✅ **Cửa hàng** với 25 sản phẩm đồng hồ đa dạng
-- ✅ **Bộ lọc sản phẩm** theo danh mục
-- ✅ **Chi tiết sản phẩm** với hình ảnh và mô tả
-- ✅ **Giỏ hàng** với quản lý đầy đủ (thêm, sửa, xóa)
-- ✅ **Danh sách yêu thích** 
-- ✅ **Thanh toán** với form validation
-- ✅ **Lịch sử đơn hàng**
-- ✅ **Liên hệ** và giới thiệu
-- ✅ **Chatbot** hỗ trợ khách hàng
-- ✅ **Đăng ký/Đăng nhập** với Breeze
-
-### Cho Admin:
-- ✅ **Admin Dashboard** (sẽ được phát triển)
-- ✅ **Quản lý sản phẩm** (CRUD)
-- ✅ **Quản lý đơn hàng**
-- ✅ **Thống kê doanh thu**
-
-## 🗂️ CẤU TRÚC DỰ ÁN
-
+## 2) Kiến trúc & cấu trúc thư mục chính
 ```
 watch-shop-laravel/
 ├── app/
-│   ├── Http/Controllers/     # Controllers
-│   ├── Models/              # Models với relationships
-│   └── Http/Middleware/     # Middleware (AdminMiddleware)
+│   ├── Http/
+│   │   ├── Controllers/            
+│   │   └── Middleware/             
+│   ├── Models/                     
+│   └── ...
+├── bootstrap/
+├── config/
 ├── database/
-│   ├── migrations/          # Database migrations
-│   └── seeders/            # Data seeders
-├── resources/
-│   └── views/              # Blade templates
-│       ├── layouts/        # Layout chính
-│       ├── home.blade.php  # Trang chủ
-│       ├── shop.blade.php  # Cửa hàng
-│       ├── cart.blade.php  # Giỏ hàng
-│       └── ...
+│   ├── migrations/                 # Migrations: users, products, cart, wishlist, orders, messages
+│   └── seeders/                    # UserSeeder, ProductSeeder, DatabaseSeeder
 ├── public/
-│   ├── css/               # CSS files
-│   ├── js/                # JavaScript files
-│   ├── images/            # Hình ảnh
-│   └── flowers/           # Hình ảnh sản phẩm
-└── routes/
-    └── web.php            # Web routes
+│   ├── css/                        
+│   ├── js/                        
+│   ├── images/                     
+│   └── flowers/                  
+├── resources/
+│   └── views/                     
+│       ├── layouts/                
+│       ├── home.blade.php
+│       ├── shop.blade.php
+│       ├── cart.blade.php
+│       ├── wishlist.blade.php
+│       ├── checkout.blade.php
+│       ├── orders.blade.php
+│       ├── view_page.blade.php
+│       ├── about.blade.php
+│       └── contact.blade.php
+├── routes/
+│   └── web.php                     
+├── .env.example
+         
 ```
 
-## 🎨 GIAO DIỆN
+## 3) CSDL & migrations
+- Bảng `users`: name, email, password, user_type (admin/user), sdt, diachi, ...
+- Bảng `products`: name, details, price, image, category
+- Bảng `cart`: user_id, pid (product_id), name, price, quantity, image
+- Bảng `wishlist`: user_id, pid, name, price, image
+- Bảng `orders`: user_id, name, number, email, method, address, total_products, total_price, placed_on, payment_status
+- Bảng `messages`: user_id, name, email, number, message
 
-- **Responsive Design**: Tương thích mobile và desktop
-- **Bootstrap 5.3**: Framework CSS hiện đại
-- **Font Awesome 6.0**: Icon library
-- **Custom CSS**: Styling dễ nhìn
-- **Animation Effects**: Logo LED và UI animations
-- **Chatbot**: JavaScript chatbot thông minh
+Tất cả được tạo bằng Laravel Migrations. Dữ liệu mẫu (25 sản phẩm, tài khoản người dùng) được đưa vào bằng Seeders.
 
-## 🛠️ TROUBLESHOOTING
+## 4) Luồng nghiệp vụ chính
+- Trang chủ (Home): hiển thị sản phẩm nổi bật.
+- Cửa hàng (Shop): liệt kê, lọc theo danh mục, xem chi tiết sản phẩm.
+- Yêu thích (Wishlist): thêm/xóa sản phẩm yêu thích.
+- Giỏ hàng (Cart): thêm/cập nhật/xóa, tính tổng tiền.
+- Thanh toán (Checkout): validate thông tin, tạo đơn hàng, xoá giỏ hàng sau đặt.
+- Đơn hàng (Orders): xem lịch sử đặt hàng của người dùng.
+- Liên hệ (Contact): gửi phản hồi (lưu vào `messages`).
+- Quản trị (Admin): phân quyền qua `AdminMiddleware` (định nghĩa route nhóm `admin`).
 
-### Lỗi thường gặp:
+## 5) Công cụ & công nghệ sử dụng
+- Backend: **Laravel** (PHP 8.2), **Eloquent ORM**, **Blade**.
+- Xác thực: **Laravel Breeze** (đăng ký/đăng nhập, bảo vệ CSRF, session, validations).
+- Database: **MySQL/MariaDB** (có thể dùng MySQL từ XAMPP, MySQL độc lập hoặc Docker – Laravel Sail).
+- Frontend: **Bootstrap 5.3**, **Font Awesome 6**, **CSS/JS** (kế thừa từ dự án gốc), **Vite** (bundling khi cần).
+- Thư viện phụ trợ (admin/stats có thể dùng): **Chart.js**, **xlsx (SheetJS)**.
+- Quản lý gói: **Composer** (PHP), **npm** (JS).
 
-1. **"Could not open input file: artisan"**
-   ```bash
-   # Đảm bảo bạn đang ở thư mục dự án
-   cd watch-shop-laravel
-   php artisan serve
-   ```
+## 6) Điểm nổi bật
+- Áp dụng chuẩn **MVC** rõ ràng, tách biệt Controller/Model/View.
+- **Migrations** giúp quản lý phiên bản CSDL, dễ `migrate/rollback`.
+- **Seeders** tạo dữ liệu mẫu tức thì, đồng nhất giữa các môi trường.
+- **Middleware** phân quyền admin an toàn, dễ mở rộng.
+- **Blade** giúp tái sử dụng layout, giữ nguyên giao diện dự án gốc.
 
-2. **Database connection error**
-   ```bash
-   # Kiểm tra cấu hình .env
-   # Đảm bảo MySQL đang chạy
-   # Kiểm tra database đã được tạo chưa
-   ```
+## 7) Yêu cầu hệ thống (tóm tắt)
+- PHP ≥ 8.1, Composer, MySQL/MariaDB, Node.js & npm.
 
-3. **Permission denied**
-   ```bash
-   # Cấp quyền cho storage
-   chmod -R 775 storage
-   chmod -R 775 bootstrap/cache
-   ```
+## 8) Lệnh nhanh (tham khảo)
+```bash
+# Cài đặt
+composer install
+npm install  # nếu cần build assets
 
-4. **Class not found**
-   ```bash
-   # Chạy lại autoload
-   composer dump-autoload
-   ```
+# Cấu hình
+copy .env.example .env
+php artisan key:generate
+# Cập nhật DB_* trong .env cho MySQL bạn dùng
 
-## 📊 DỮ LIỆU MẪU
+# Database
+php artisan migrate --seed
 
-- **25 sản phẩm đồng hồ** đa dạng từ các thương hiệu nổi tiếng
-- **4 tài khoản mẫu** (2 admin, 2 user)
-- **16 danh mục sản phẩm** khác nhau
-- **Dữ liệu đầy đủ** cho testing
+# Chạy server
+php artisan serve  # http://localhost:8000
 
-## 🔐 BẢO MẬT
-
-- **CSRF Protection**: Tự động với Laravel
-- **Form Validation**: Validation rules đầy đủ
-- **SQL Injection Protection**: Eloquent ORM
-- **XSS Protection**: Blade templating
-- **Authentication**: Laravel Breeze
-- **Authorization**: Middleware phân quyền
-
-## 📈 PERFORMANCE
-
-- **Eloquent ORM**: Query optimization
-- **Lazy Loading**: Relationships
-- **Caching**: Laravel cache system
-- **Asset Optimization**: Vite bundling
-- **Database Indexing**: Foreign keys và indexes
-
-## 🚀 DEPLOYMENT
-
-### Production Checklist:
-- [ ] Cấu hình `.env` cho production
-- [ ] Set `APP_DEBUG=false`
-- [ ] Cấu hình database production
-- [ ] Chạy `php artisan config:cache`
-- [ ] Chạy `php artisan route:cache`
-- [ ] Chạy `php artisan view:cache`
-- [ ] Build assets với `npm run build`
-      
----
-
-**🎉 Chúc bạn sử dụng dự án thành công!**
-
+# (Tuỳ chọn) Build assets
+npm run dev   # hoặc npm run build
+```
