@@ -180,7 +180,7 @@ watch-shop-laravel/
 - **Responsive Design**: Tương thích mobile và desktop
 - **Bootstrap 5.3**: Framework CSS hiện đại
 - **Font Awesome 6.0**: Icon library
-- **Custom CSS**: Styling từ dự án gốc
+- **Custom CSS**: Styling dễ nhìn
 - **Animation Effects**: Logo LED và UI animations
 - **Chatbot**: JavaScript chatbot thông minh
 
